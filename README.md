@@ -28,8 +28,16 @@ Create the Docker image using the following command
 
 ```
 cd forwardproxy
-docker build -t local .
+docker build -t forwardproxy:latest .
 ```
+
+When the docker containers have been brought up you can test the forward proxy
+using a command like this
+
+```
+curl -v -x http://localhost:7777 http://gitea:3000
+```
+
 
 ### Gitea
 
@@ -103,3 +111,4 @@ directory.  Also MacOS does not seem to include a `/etc/timezone` file either.
 * [Difference betweemn timezone and localtime](https://unix.stackexchange.com/questions/384971/whats-the-difference-between-localtime-and-timezone-files)
 * [Linux/UNIX timezone files](https://linux-audit.com/configure-the-time-zone-tz-on-linux-systems/)
 * [nginx forward proxy](https://github.com/reiz/nginx_proxy/blob/master/nginx_blacklist.conf)
+* [using nginx as forward proxy](https://stackoverflow.com/questions/46060028/how-to-use-nginx-as-forward-proxy-for-any-requested-location)

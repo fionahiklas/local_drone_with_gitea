@@ -6,7 +6,7 @@ networks:
 
 services:
   forwardproxy:
-    image: forwardproxy:local
+    image: forwardproxy:latest
     restart: always
     networks:
       - giteadrone
