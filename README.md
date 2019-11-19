@@ -7,6 +7,30 @@ Currently this is on a Mac but should be transferrable to anything running Docke
 
 ## Setup
 
+### Forward Proxy
+
+Needed so that a browser can successfully connect to the various containers on 
+the internal network and such that the same host names can be used internally 
+(to Docker) and externally.
+
+The problem is that gitea and Drone will be referring to each others hosts 
+(for OAuth and webhooks0, this should work fine for any communication within
+Docker since it's internal DNS resolution should work.  
+
+However, for an external browser connection ports need to be exposed and these 
+would likely sit on localhost.  To get the same DNS naming would require
+hacking the `/etc/hosts` file which is messy.
+
+The forward proxy allows a browser to connect and have all resolution and 
+connections made internal to Docker networking.
+
+Create the Docker image using the following command
+
+```
+cd forwardproxy
+docker build -t local .
+```
+
 ### Gitea
 
 Following [Docker install](https://docs.gitea.io/en-us/install-with-docker/) instructions.
@@ -70,6 +94,7 @@ directory.  Also MacOS does not seem to include a `/etc/timezone` file either.
 
 * [Timezone with Docker and host](https://medium.com/developer-space/be-careful-while-playing-docker-about-timezone-configuration-e7a2217e9b76)
 * [/etc/localtime /etc/timezone mounts on MacOS with Docker](https://github.com/docker/for-mac/issues/2396)
+* [Using nginx as a proxy](https://www.thepolyglotdeveloper.com/2017/03/nginx-reverse-proxy-containerized-docker-applications/)
 
 
 ### Linux/UNIX
@@ -77,3 +102,4 @@ directory.  Also MacOS does not seem to include a `/etc/timezone` file either.
 * [Dump localtime](https://unix.stackexchange.com/questions/85925/how-can-i-examine-the-contents-of-etc-localtime)
 * [Difference betweemn timezone and localtime](https://unix.stackexchange.com/questions/384971/whats-the-difference-between-localtime-and-timezone-files)
 * [Linux/UNIX timezone files](https://linux-audit.com/configure-the-time-zone-tz-on-linux-systems/)
+* [nginx forward proxy](https://github.com/reiz/nginx_proxy/blob/master/nginx_blacklist.conf)

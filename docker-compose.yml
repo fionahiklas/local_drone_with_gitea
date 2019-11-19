@@ -1,20 +1,28 @@
 version: "2"
 
 networks:
-  gitea:
+  giteadrone:
     external: false
 
 services:
-  server:
+  forwardproxy:
+    image: forwardproxy:local
+    restart: always
+    networks:
+      - giteadrone
+    ports:
+      - "7777:8888"
+
+  gitea:
     image: gitea/gitea:latest
     environment:
       - USER_UID=502
       - USER_GID=20
     restart: always
     networks:
-      - gitea
+      - giteadrone
     volumes:
-      - ./data:/data
+      - ./gitea/data:/data
       - ./etc/timezone:/etc/timezone:ro
       - ./etc/localtime:/etc/localtime:ro
     ports:
