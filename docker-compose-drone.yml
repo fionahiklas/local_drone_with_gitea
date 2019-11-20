@@ -1,0 +1,24 @@
+version: "2"
+
+networks:
+  giteadrone:
+    external: false
+
+services:
+  drone:
+    image: drone/drone:1
+    environment:
+      - DRONE_SERVER_HOST=drone
+      - DRONE_SERVER_PROTO=http
+      - DRONE_AGENTS_ENABLED=true
+      - DRONE_GITEA_SERVER=http://gitea:3000
+      - DRONE_GITEA_CLIENT_ID=8af4ed1b-6591-4c1e-9646-a92e4091f5d2
+      - DRONE_GITEA_CLIENT_SECRET=cT4ylyBYkbOZRnh03-IT8cX2IwT9FgQGdAVgn08QFbE=
+      - DRONE_RPC_SECRET=Y29tbWFuZGVydmltZXMK
+    restart: always
+    networks:
+      - giteadrone
+    volumes:
+      - ./drone/data:/data
+    ports:
+      - "5555:80"

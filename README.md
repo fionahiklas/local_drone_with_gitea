@@ -31,8 +31,8 @@ cd forwardproxy
 docker build -t forwardproxy:latest .
 ```
 
-When the docker containers have been brought up you can test the forward proxy
-using a command like this
+When the Gitea docker containers (which includes the proxy) have been brought 
+up you can test using a command like this
 
 ```
 curl -v -x http://localhost:7777 http://gitea:3000
@@ -41,24 +41,26 @@ curl -v -x http://localhost:7777 http://gitea:3000
 
 ### Gitea
 
-Following [Docker install](https://docs.gitea.io/en-us/install-with-docker/) instructions.
+Following [Docker install](https://docs.gitea.io/en-us/install-with-docker/) 
+instructions for Gitea.
 
-Using the docker-compose.yaml file under ./gitea and running the following commands
+Run the following command to start gitea and the forward proxy.
 
 ```
-cd gitea
-docker-compose up -d
+docker-compose up -d -f docker-compose-gitea.yml
 ```
 
 Check status with `docker-compose ps` or `docker ps`
 
-Visit gitea using the URL `http://localhost:3333`
+In a browser, set the HTTP proxy to `localhost:7777`
 
-At this point (for a new installation) clicking on `Register` or `signin` redirects to `http://localhost:3333/install`
+Visit gitea using the URL `http://gitea:3000`
+
+At this point (for a new installation) clicking on `Register` or `signin` redirects to `http://gitea:3000/install`
 
 Leave all the settings apart from the following:
 
-* `Gitea base URL` - since the given `docker-compose.yml` setup/ports, change this to `http://localhost:3333/`
+* `Gitea base URL` - since the given `docker-compose.yml` setup/ports, change this to `http://gitea:3000/`
 * `Administrator account` - created a user called `giteaadmin` and password `password`
 
 Press the install button and it will drop you into the admin user after installation, sign out from this.
@@ -68,6 +70,17 @@ Created a new account (Using "Register" button) with the following details
 * Username `sandbox`
 * Email `sandbox@mailinator.com`
 * Password: `Password12345!`
+
+
+### Drone
+
+Following the [Gitea install instructions](https://docs.drone.io/installation/providers/gitea/)
+
+As the `sandbox` user go to Settings -> Applications and create a new 
+application with the following information
+
+* `Application name`: drone
+* `Redirect URI`: http://drone/login
 
 
 
@@ -96,6 +109,8 @@ directory.  Also MacOS does not seem to include a `/etc/timezone` file either.
 
 
 ### Drone
+
+* [Gitea install instructions](https://docs.drone.io/installation/providers/gitea/)
 
 
 ### Docker
