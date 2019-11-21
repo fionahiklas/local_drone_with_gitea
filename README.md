@@ -9,6 +9,10 @@ Currently this is on a Mac but should be transferrable to anything running Docke
 
 ### Create forward proxy docker image
 
+```
+cd forwardproxy
+docker build -t forwardproxy:latest .
+```
 
 ### Restore databases
 
@@ -26,10 +30,45 @@ sqlite3 database.sqlite < drone-dump.sql
 Run the following command
 
 ```
-docker-compose up -d -f docker-compose.yml
+docker-compose -f docker-compose.yml up -d
 ```
 
-## Setup
+### Connect Browser
+
+Change the HTTP proxy settings to `http://localhost:7777`
+
+Connect to Gitea on `http://gitea:3000`
+Connect to Drone on `http://drone/`
+
+
+### Clone Repos
+
+You can create a repo using the Gitea GUI, to clone this requires some 
+tweaking to the git command
+
+```
+git clone ssh://git@localhost:4444/sandbox/myrepo.git
+```
+
+
+
+## Building
+
+In order to get everything working properly there was a certain amount of 
+hacking around.
+
+The Drone executable needs to know the client ID and key from Gitea.  So it's
+not possible to start everything in one go since these credentials are not 
+known until the Drone application is added to gitea.
+
+To hack around this I had to start the forward proxy and Gitea using a seperate
+docker-compose file, configure everything and then run another with Drone
+having tweaked the environment variables.
+
+Once everything was setup I then took dumps of the SQLlite3 databases for both 
+Gitea and Drone.  The quickstart instructions above explain how to restore from
+the dump files and recreate the DB for each application.
+
 
 ### Forward Proxy
 
@@ -71,7 +110,7 @@ instructions for Gitea.
 Run the following command to start gitea and the forward proxy.
 
 ```
-docker-compose up -d -f docker-compose-gitea.yml
+docker-compose -f docker-compose-gitea.yml up -d 
 ```
 
 Check status with `docker-compose ps` or `docker ps`
@@ -109,9 +148,15 @@ application with the following information
 Start the docker containers with the following command
 
 ```
-docker-compose up -d -f docker-compose-drone.yml
+docker-compose -f docker-compose-drone.yml up -d
 ```
 
+### Dump SQLlite databases
+
+```
+cd gitea/data
+sqlite3 gitea.db .dump 
+```
 
 ## Notes
 
