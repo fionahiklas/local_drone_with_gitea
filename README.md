@@ -5,6 +5,30 @@ Setup for running [gitea](https://docs.gitea.io) and Drone locally for testing a
 Currently this is on a Mac but should be transferrable to anything running Docker.
 
 
+## Quickstart
+
+### Create forward proxy docker image
+
+
+### Restore databases
+
+Run the following commands
+
+```
+cd gitea/data
+sqlite3 gitea.db < gitea-dump.sql 
+cd ../../drone/data
+sqlite3 database.sqlite < drone-dump.sql
+```
+
+### Start the services
+
+Run the following command
+
+```
+docker-compose up -d -f docker-compose.yml
+```
+
 ## Setup
 
 ### Forward Proxy
@@ -82,6 +106,11 @@ application with the following information
 * `Application name`: drone
 * `Redirect URI`: http://drone/login
 
+Start the docker containers with the following command
+
+```
+docker-compose up -d -f docker-compose-drone.yml
+```
 
 
 ## Notes
@@ -127,3 +156,8 @@ directory.  Also MacOS does not seem to include a `/etc/timezone` file either.
 * [Linux/UNIX timezone files](https://linux-audit.com/configure-the-time-zone-tz-on-linux-systems/)
 * [nginx forward proxy](https://github.com/reiz/nginx_proxy/blob/master/nginx_blacklist.conf)
 * [using nginx as forward proxy](https://stackoverflow.com/questions/46060028/how-to-use-nginx-as-forward-proxy-for-any-requested-location)
+
+
+### SQLite
+
+* [Dump and restore](http://www.ibiblio.org/elemental/howto/sqlite-backup.html)
