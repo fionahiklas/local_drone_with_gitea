@@ -22,4 +22,7 @@ __pycache__
 /*.jpg
 /*.jpeg
 
+# Database files
+*.db
+*.sqlite
 

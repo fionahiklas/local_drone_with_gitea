@@ -1,0 +1,5 @@
+repositories/*
+!repositories/.gitkeep
+lfs/*
+!lfs/.gitkeep
+
