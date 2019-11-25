@@ -185,7 +185,7 @@ directory.  Also MacOS does not seem to include a `/etc/timezone` file either.
 ### Drone
 
 * [Gitea install instructions](https://docs.drone.io/installation/providers/gitea/)
-
+* [Ansible plugin](http://plugins.drone.io/drone-plugins/drone-ansible/)
 
 ### Docker
 
