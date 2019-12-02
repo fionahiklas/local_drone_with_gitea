@@ -26,3 +26,7 @@ __pycache__
 *.db
 *.sqlite
 
+# Vagrant
+.vagrant
+
+

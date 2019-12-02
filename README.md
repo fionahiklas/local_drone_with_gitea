@@ -2,7 +2,21 @@
 
 Setup for running [gitea](https://docs.gitea.io) and Drone locally for testing and development purposes
 
-Currently this is on a Mac but should be transferrable to anything running Docker.
+
+Currently this is on a Mac but should be transferrable to anything capable of 
+running Vagrant and VirtualBox
+
+NOTE: Currently this project is being refactored and reworked so that the 
+docker containers run in a Vagrant VM.  I tried setting everything up to just 
+run in containers natively but hit the problem that any images used by Drone
+itself in steps will likely access gitea or the drone server.  This means that 
+the host OS needs to be able to resolve those names.  Essentially this means
+hacking `/etc/hosts` or similar and I want to avoid that on the host.  Using 
+Vagrant means it can be done in the guest and ports mapped back to the host to
+allow access.
+
+TODO: Complete all the Vagrant shenanigans :D
+
 
 
 ## Quickstart
